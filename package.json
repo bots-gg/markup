@@ -1,0 +1,14 @@
+{
+  "name": "@bots-gg/markup",
+  "version": "1.0.0",
+  "description": "Unified markdown handling & XSS fixer for bots.gg",
+  "main": "index.js",
+  "repository": "https://github.com/bots-gg/markup",
+  "author": "Michael Mitchell (michael@ovyerus.com)",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "highlight.js": "^9.18.1",
+    "marked": "^0.8.2",
+    "xss": "^1.0.6"
+  }
+}
