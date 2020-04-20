@@ -1,6 +1,6 @@
 {
   "name": "@bots-gg/markup",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Unified markdown handling & XSS fixer for bots.gg",
   "main": "index.js",
   "repository": "https://github.com/bots-gg/markup",
