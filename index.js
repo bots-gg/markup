@@ -8,15 +8,6 @@ const onTagAttr = (tag, name, value) => {
     return value === "stylesheet" ? 'rel="stylesheet"' : "";
 };
 
-// Tags to inject before & after body content
-// TODO: do we even need this? we can just include the tag on the bot page
-const additions = {
-  prepend: [
-    '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/solarized-dark.min.css">',
-  ],
-  append: [],
-};
-
 const whiteList = {
   ...xss.whiteList,
   // Allow marquees
@@ -51,7 +42,3 @@ exports.render = (md) =>
       whiteList,
     }
   );
-
-/** Safely render markdown with injected additions. */
-exports.renderWithAdditions = (md) =>
-  [...additions.prepend, exports.render(md), ...additions.append].join("\n");
