@@ -3,13 +3,13 @@
   "version": "1.0.3",
   "description": "Unified markdown handling & XSS fixer for bots.gg",
   "main": "index.js",
-  "types": "markup.d.ts",
+  "types": "index.d.ts",
   "repository": "https://github.com/bots-gg/markup",
   "author": "Michael Mitchell <michael@ovyerus.com>",
   "license": "UNLICENSED",
   "files": [
     "index.js",
-    "markup.d.ts"
+    "index.d.ts"
   ],
   "dependencies": {
     "highlight.js": "^9.18.1",
