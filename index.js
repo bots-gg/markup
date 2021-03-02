@@ -36,7 +36,9 @@ exports.render = (md) =>
   xss(
     marked(md, {
       highlight: (code, lang) =>
-        lang ? hljs.highlight(lang, code, true).value : code,
+        lang && hljs.getLanguage(lang)
+          ? hljs.highlight(lang, code, true).value
+          : code,
       smartypants: true,
       smartLists: true,
     }),
