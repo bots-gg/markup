@@ -8,7 +8,7 @@ const onTagAttr = (tag, name, value) => {
     return value === "stylesheet" ? 'rel="stylesheet"' : "";
   if (tag === "input" && name === "type")
     // Allow checkboxes from `- [ ]`
-    return value === "checkbox";
+    return value === "checkbox" ? 'type="checkbox"' : "";
 };
 
 const whiteList = {
@@ -26,6 +26,7 @@ const whiteList = {
   ],
   style: [], // Allow plain style tags
   link: ["rel", "href"], // Allow link tags for external stylesheets
+  input: ["type"], // Allow checkbox inputs
 };
 
 // Enable custom classes & ids to assist with CSS
@@ -37,7 +38,7 @@ exports.render = (md) =>
     marked(md, {
       highlight: (code, lang) =>
         lang && hljs.getLanguage(lang)
-          ? hljs.highlight(lang, code, true).value
+          ? hljs.highlight(code, { language: lang, ignoreIllegals: true }).value
           : code,
       smartypants: true,
       smartLists: true,

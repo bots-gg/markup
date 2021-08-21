@@ -12,8 +12,8 @@
     "index.d.ts"
   ],
   "dependencies": {
-    "highlight.js": "^10.6.0",
-    "marked": "^2.0.1",
+    "highlight.js": "^11.2.0",
+    "marked": "^3.0.0",
     "xss": "^1.0.8"
   }
 }
