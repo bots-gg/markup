@@ -48,3 +48,10 @@ exports.render = (md) =>
       whiteList,
     }
   );
+
+exports.toPlainText = (str) =>
+  xss(str, {
+    whiteList: {},
+    stripIgnoreTag: true,
+    stripIgnoreTagBody: ["script", "style"],
+  });
