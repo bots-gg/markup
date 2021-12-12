@@ -1,5 +1,5 @@
-const marked = require("marked");
 const hljs = require("highlight.js");
+const { marked } = require("marked");
 const xss = require("xss");
 
 const onTagAttr = (tag, name, value) => {
