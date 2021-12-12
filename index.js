@@ -54,4 +54,11 @@ exports.toPlainText = (str) =>
     whiteList: {},
     stripIgnoreTag: true,
     stripIgnoreTagBody: ["script", "style"],
-  });
+  })
+    // Handle the main entities that will occur, cba pulling in an entire lib for all.
+    .replaceAll("&gt;", ">")
+    .replaceAll("&lt;", "<")
+    .replaceAll("&amp;", "&")
+    .replaceAll("&quot;", '"')
+    .replaceAll("&apos;", "'")
+    .replaceAll("&nbsp;", " ");
