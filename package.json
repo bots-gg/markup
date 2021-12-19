@@ -6,7 +6,7 @@
   "types": "index.d.ts",
   "repository": "https://github.com/bots-gg/markup",
   "author": "Michael Mitchell <michael@ovyerus.com>",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "files": [
     "index.js",
     "index.d.ts"
