@@ -33,8 +33,24 @@ const whiteList = {
 for (const key of Object.keys(whiteList)) whiteList[key].push("class", "id");
 
 /** Safely render markdown. */
-exports.render = (md) =>
-  xss(
+exports.render = (md, urlTransform = undefined) => {
+  if (!urlTransform)
+    urlTransform = (url) => url;
+
+  const closureOnTagAttr = (tag, name, value, isWhiteAttr) => {
+    const original = onTagAttr(tag, name, value);
+    if (original) return original;
+
+    if (!isWhiteAttr) return undefined;
+
+    if (["img", "audio", "video"].includes(tag) && name === "src")
+      return urlTransform(value, tag) ? `src="${urlTransform(value, tag)}"` : "";
+    
+    if (tag === "link" && name === "href")
+      return urlTransform(value, "link") ? `tag="${urlTransform(value, tag)}"`: "";
+  }
+
+  return xss(
     marked(md, {
       highlight: (code, lang) =>
         lang && hljs.getLanguage(lang)
@@ -44,10 +60,11 @@ exports.render = (md) =>
       smartLists: true,
     }),
     {
-      onTagAttr,
+      onTagAttr: closureOnTagAttr,
       whiteList,
     }
   );
+}
 
 exports.toPlainText = (str) =>
   xss(str, {
