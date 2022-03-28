@@ -47,7 +47,10 @@ exports.render = (md, urlTransform = undefined) => {
       return urlTransform(value, tag) ? `src="${urlTransform(value, tag)}"` : "";
     
     if (tag === "link" && name === "href")
-      return urlTransform(value, "link") ? `tag="${urlTransform(value, tag)}"`: "";
+      return urlTransform(value, tag) ? `href="${urlTransform(value, tag)}"` : "";
+    
+    if (tag === "a" && name === "href")
+      return urlTransform(value, tag) ? `href="${urlTransform(value, tag)}"` : ""
   }
 
   return xss(
