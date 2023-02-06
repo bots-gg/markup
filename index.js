@@ -46,10 +46,14 @@ const parseNode = (node, urlTransform) => {
       middleware([
         (elem) => {
           if (elem.type === "decl" && elem.children.startsWith("url(")) {
-            elem.return = `${elem.props}:url(${urlTransform(
-              elem.children.slice(4, -1),
+            const quote = ['"', "'"].includes(elem.children.charAt(4)) ? elem.children.charAt(4) : ")";
+            const start = quote === ")" ? 4 : 5;
+            const url = elem.children.slice(start, elem.children.indexOf(quote, start));
+            const surround = quote === ")" ? "" : quote;
+            elem.return = `${elem.props}:url(${surround}${urlTransform(
+              url,
               "style"
-            )})`;
+            )}${surround})${elem.children.slice(elem.children.indexOf(quote, start) + 1)};`;
           }
         },
         stringify,
