@@ -39,26 +39,30 @@ const whiteList = {
 // Enable custom classes & ids to assist with CSS
 for (const key of Object.keys(whiteList)) whiteList[key].push("class", "id");
 
+const escapeCSS = (text, urlTransform) => {
+  return cssSerialize(
+    compile(text),
+    middleware([
+      (elem) => {
+        if (elem.type === "decl" && elem.children.startsWith("url(")) {
+          const quote = ['"', "'"].includes(elem.children.charAt(4)) ? elem.children.charAt(4) : ")";
+          const start = quote === ")" ? 4 : 5;
+          const url = elem.children.slice(start, elem.children.indexOf(quote, start));
+          const surround = quote === ")" ? "" : quote;
+          elem.return = `${elem.props}:url(${surround}${urlTransform(
+            url,
+            "style"
+          )}${surround})${elem.children.slice(elem.children.indexOf(quote, start) + 1 + (quote !== ")" ? 1 : 0))};`;
+        }
+      },
+      stringify,
+    ])
+  )
+}
+
 const parseNode = (node, urlTransform) => {
   if (node.nodeName === "#text" && node.parentNode.nodeName === "style") {
-    node.value = cssSerialize(
-      compile(node.value),
-      middleware([
-        (elem) => {
-          if (elem.type === "decl" && elem.children.startsWith("url(")) {
-            const quote = ['"', "'"].includes(elem.children.charAt(4)) ? elem.children.charAt(4) : ")";
-            const start = quote === ")" ? 4 : 5;
-            const url = elem.children.slice(start, elem.children.indexOf(quote, start));
-            const surround = quote === ")" ? "" : quote;
-            elem.return = `${elem.props}:url(${surround}${urlTransform(
-              url,
-              "style"
-            )}${surround})${elem.children.slice(elem.children.indexOf(quote, start) + 1)};`;
-          }
-        },
-        stringify,
-      ])
-    );
+    node.value = escapeCSS(node.value, urlTransform);
   }
 
   if (node.childNodes)
@@ -113,6 +117,8 @@ exports.render = (md, urlTransform = undefined) => {
 
   return serialize(tree);
 };
+
+exports.escapeCSS = escapeCSS;
 
 exports.toPlainText = (str) =>
   xss(str, {
